@@ -5,7 +5,7 @@ import { Link } from 'react-router-native';
 const styles = StyleSheet.create({
   appBarText: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 20
   }
@@ -13,9 +13,7 @@ const styles = StyleSheet.create({
 
 const AppBarTab = ({ text, route }) => (
   <Link to={route} component={TouchableWithoutFeedback}>
-      <Text fontSize="header"
-      fontWeight="bold"
-      color="header" 
+      <Text 
       style={styles.appBarText}
       >
         {text}

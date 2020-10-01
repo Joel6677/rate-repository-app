@@ -7,17 +7,29 @@ export const GET_REPOSITORIES = gql`
         node {
           id
           fullName
-          reviewCount
-          ratingAverage
-          stargazersCount
-          forksCount
-          ownerAvatarUrl
           description
           language
+          stargazersCount
+          reviewCount
+          ratingAverage
+          forksCount
+          ownerAvatarUrl
         }
       }
     }
   }
 `;
+
+
+
+export const GET_AUTHORIZED_USER = gql`
+  query {
+    authorizedUser {
+      id
+      username
+    }
+  }
+`;
+
 
 // other queries...

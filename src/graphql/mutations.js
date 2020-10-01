@@ -1,9 +1,11 @@
-import { gql } from "apollo-boost";
 
-export const AUTHORIZE = gql`
-  mutation ($username: String!, $password: String!){
-    authorize(credentials: {username: $username, password: $password}) {
-    accessToken
+import { gql } from 'apollo-boost';
+
+
+export const SIGN_IN = gql`
+  mutation Authorize($credentials: AuthorizeInput) {
+    authorize(credentials: $credentials) {
+      accessToken
+    }
   }
-}
 `;

@@ -1,22 +1,24 @@
- import ApolloClient from 'apollo-boost';
+import ApolloClient from 'apollo-boost';
 import Constants from 'expo-constants';
 
-const createApolloClient = (authStorege) => {
+const createApolloClient = (authStorage) => {
   return new ApolloClient({
     request: async (operation) => {
       try {
-        const accessToken = await authStorege.getAccessToken();
+        const accessToken = await authStorage.getAccessToken();
         operation.setContext({
           headers: {
-            Authorization: accessToken ? `Bearer ${accessToken}` : '',
+            authorization: accessToken ? `Bearer ${accessToken}` : '',
           },
         });
       } catch (e) {
         console.log(e);
       }
     },
-    uri: Constants.manifest.extra.apolloUri
+    uri: Constants.manifest.extra.uri
   });
 };
 
 export default createApolloClient;
+
+

@@ -1,3 +1,8 @@
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
+
+import { RepositoryListContainer } from '../../components/RepositoryList';
+
 describe('RepositoryList', () => {
     describe('RepositoryListContainer', () => {
       it('renders repository information correctly', () => {
@@ -45,8 +50,9 @@ describe('RepositoryList', () => {
         };
   
         // Add your test code here
+        const { debug, getAllByTestId } = render(<RepositoryListContainer repositories={repositories}/>);
 
-        
+        debug();
 
       });
     });

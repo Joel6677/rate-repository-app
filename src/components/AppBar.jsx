@@ -1,16 +1,21 @@
-import React, {useContext} from 'react';
-import { View, ScrollView, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+
+import {
+  View,
+  ScrollView,
+  TouchableWithoutFeedback,
+  StyleSheet,
+} from 'react-native';
+
 import Constants from 'expo-constants';
+import { Link } from 'react-router-native';
+import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import { useHistory } from 'react-router-native';
 
 import theme from '../theme';
 import Text from './Text';
-import { useQuery } from '@apollo/react-hooks';
+import AuthStorageContext from '../contexts/AuthStorageContext';
 import { GET_AUTHORIZED_USER } from '../graphql/queries';
-
-import AuthStorageContext from "../contexts/AuthStorageContext";
-import { useApolloClient } from '@apollo/client';
-import AppBarTab from './AppBarTab';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -33,46 +38,50 @@ const styles = StyleSheet.create({
   tabText: {
     color: 'white',
   },
-  signOutButton: {
-    color: 'white',
-    fontSize: 25,
-    fontWeight: 'bold',
-    marginLeft: 20
-  }
 });
 
+const AppBarTab = ({ children, ...props }) => {
+  return (
+    <TouchableWithoutFeedback style={styles.tabTouchable} {...props}>
+      <View style={styles.tabContainer}>
+        <Text fontWeight="bold" style={styles.tabText}>
+          {children}
+        </Text>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
 
 const AppBar = () => {
-  const authStorage = useContext(AuthStorageContext);
   const apolloClient = useApolloClient();
+  const authStorage = useContext(AuthStorageContext);
+  const history = useHistory();
 
-  const { data } = useQuery(GET_AUTHORIZED_USER,
-    { fetchPolicy: 'cache-and-network'}
-  );
+  const { data } = useQuery(GET_AUTHORIZED_USER);
+  const authorizedUser = data ? data.authorizedUser : undefined;
 
-  const signOut = () => {
-    authStorage.removeAccessToken();
+  const onSignOut = async () => {
+    await authStorage.removeAccessToken();
     apolloClient.resetStore();
+    history.push('/');
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal>
-        <AppBarTab text={'Repositories'} route={'/'} />
-        {data && data?.authorizedUser
-          ? (<TouchableWithoutFeedback onPress={signOut}>
-            <Text 
-              style={styles.signOutButton}>
-              Sign out
-          </Text>
-          </TouchableWithoutFeedback>)
-          : <AppBarTab text={'Sign in'} route={'/signIn'} />
-        }
+      <ScrollView style={styles.scrollView} horizontal>
+        <Link to="/" component={AppBarTab}>
+          Repositories
+        </Link>
+        {authorizedUser ? (
+          <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
+        ) : (
+          <Link to="/sign-in" component={AppBarTab}>
+            Sign in
+          </Link>
+        )}
       </ScrollView>
     </View>
   );
 };
 
 export default AppBar;
-
-

@@ -22,15 +22,6 @@ const styles = StyleSheet.create({
   fontWeightBold: {
     fontWeight: theme.fontWeights.bold,
   },
-  colorButton: {
-    color: theme.colors.white,
-  },
-  fontSizeButtonText: {
-    fontSize: theme.fontSizes.buttonText,
-  },
-  fontSizeHeader: {
-    fontSize: theme.fontSizes.header,
-  }
 });
 
 const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
@@ -38,10 +29,7 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
     styles.text,
     color === 'textSecondary' && styles.colorTextSecondary,
     color === 'primary' && styles.colorPrimary,
-    color === 'button' && styles.colorButton,
     fontSize === 'subheading' && styles.fontSizeSubheading,
-    fontSize === 'button' && styles.fontSizeButtonText,
-    fontSize === 'header' && styles.fontSizeHeader,
     fontWeight === 'bold' && styles.fontWeightBold,
     style,
   ];

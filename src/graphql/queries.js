@@ -1,35 +1,29 @@
 import { gql } from 'apollo-boost';
 
+import { REPOSITORY_BASE_FIELDS, USER_BASE_FIELDS } from './fragments';
+
 export const GET_REPOSITORIES = gql`
   query {
     repositories {
       edges {
         node {
-          id
-          fullName
-          description
-          language
-          stargazersCount
-          reviewCount
+          ...RepositoryBaseFields
           ratingAverage
-          forksCount
-          ownerAvatarUrl
+          reviewCount
         }
       }
     }
   }
+
+  ${REPOSITORY_BASE_FIELDS}
 `;
-
-
 
 export const GET_AUTHORIZED_USER = gql`
   query {
     authorizedUser {
-      id
-      username
+      ...UserBaseFields
     }
   }
+
+  ${USER_BASE_FIELDS}
 `;
-
-
-// other queries...

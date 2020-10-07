@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 
 import { RepositoryListContainer } from '../../components/RepositoryList';
 
@@ -52,7 +52,43 @@ describe('RepositoryList', () => {
         // Add your test code here
         const { debug, getAllByTestId } = render(<RepositoryListContainer repositories={repositories}/>);
 
-        debug();
+        // debug();
+
+        const fullNames = getAllByTestId('fullName');
+
+        expect(fullNames[0]).toHaveTextContent('jaredpalmer/formik');
+        expect(fullNames[1]).toHaveTextContent('async-library/react-async');
+
+        const descriptions = getAllByTestId('description');
+
+        expect(descriptions[0]).toHaveTextContent('Build forms in React, without the tears');
+        expect(descriptions[1]).toHaveTextContent('Flexible promise-based React data loader');
+
+        const languages = getAllByTestId('language');
+
+        expect(languages[0]).toHaveTextContent('TypeScript');
+        expect(languages[1]).toHaveTextContent('JavaScript');
+
+        const stars = getAllByTestId('Stars');
+
+        expect(stars[0]).toHaveTextContent(21.9 + 'k');
+        expect(stars[1]).toHaveTextContent(1.8 + 'k');
+
+        const forks = getAllByTestId('Forks');
+
+        expect(forks[0]).toHaveTextContent(1.6 + 'k');
+        expect(forks[1]).toHaveTextContent(69);
+
+        const reviews = getAllByTestId('Reviews');
+
+        expect(reviews[0]).toHaveTextContent(3);
+        expect(reviews[1]).toHaveTextContent(3);
+
+        const ratings = getAllByTestId('Rating');
+
+        expect(ratings[0]).toHaveTextContent(88);
+        expect(ratings[1]).toHaveTextContent(72);
+
 
       });
     });

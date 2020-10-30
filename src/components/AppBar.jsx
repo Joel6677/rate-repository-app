@@ -17,7 +17,6 @@ import theme from '../theme';
 import Text from './Text';
 import AuthStorageContext from '../contexts/AuthStorageContext';
 import { GET_AUTHORIZED_USER } from '../graphql/queries';
-// import useAuthorizedUser from '../hooks/useAuthorizedUser';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,9 +62,6 @@ const AppBar = () => {
     { fetchPolicy: 'cache-and-network'});
 
   const authorizedUser = data ? data.authorizedUser : undefined;
-  // console.log('user: ', authorizedUser);
-  // const authorizedUser = useAuthorizedUser();
-
 
   const onSignOut = async () => {
     await authStorage.removeAccessToken();

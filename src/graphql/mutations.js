@@ -14,3 +14,23 @@ export const AUTHORIZE = gql`
 
   ${USER_BASE_FIELDS}
 `;
+
+
+export const CREATE_REVIEW = gql`
+  mutation createReview($ownerName: String!, $repositoryName: String!,
+    $rating: Int!, $text: String) {
+    createReview(review: { repositoryName: $repositoryName, ownerName: $ownerName,
+      rating: $rating, text: $text }) {
+        repositoryId,
+    }
+  }
+`;
+
+export const SIGN_UP = gql`
+  mutation createUser($user: CreateUserInput!) {
+    createUser(user: $user) {
+      id
+      username
+    }
+  }
+`;

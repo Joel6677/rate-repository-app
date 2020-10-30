@@ -9,13 +9,15 @@ import {
 
 import Constants from 'expo-constants';
 import { Link } from 'react-router-native';
-import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-native';
 
 import theme from '../theme';
 import Text from './Text';
 import AuthStorageContext from '../contexts/AuthStorageContext';
 import { GET_AUTHORIZED_USER } from '../graphql/queries';
+// import useAuthorizedUser from '../hooks/useAuthorizedUser';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,8 +59,13 @@ const AppBar = () => {
   const authStorage = useContext(AuthStorageContext);
   const history = useHistory();
 
-  const { data } = useQuery(GET_AUTHORIZED_USER);
+  const { data } = useQuery(GET_AUTHORIZED_USER,
+    { fetchPolicy: 'cache-and-network'});
+
   const authorizedUser = data ? data.authorizedUser : undefined;
+  // console.log('user: ', authorizedUser);
+  // const authorizedUser = useAuthorizedUser();
+
 
   const onSignOut = async () => {
     await authStorage.removeAccessToken();
@@ -73,11 +80,24 @@ const AppBar = () => {
           Repositories
         </Link>
         {authorizedUser ? (
-          <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
+          <>
+            <Link to="/create-review" component={AppBarTab}>
+              Create a review
+           </Link>
+           <Link to="/my-reviews" component={AppBarTab}>
+              My reviews
+           </Link>
+            <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
+          </>
         ) : (
+          <>
           <Link to="/sign-in" component={AppBarTab}>
             Sign in
           </Link>
+            <Link to="/sign-up" component={AppBarTab}>
+            Sign Up
+          </Link>
+          </>
         )}
       </ScrollView>
     </View>

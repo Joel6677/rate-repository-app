@@ -5,6 +5,10 @@ import theme from '../theme';
 import Text from './Text';
 import formatInThousands from '../utils/formatInThousands';
 
+import * as Linking from 'expo-linking';
+
+import Button from './Button';
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
@@ -17,6 +21,7 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginBottom: 15
   },
   avatarContainer: {
     flexGrow: 0,
@@ -71,7 +76,8 @@ const CountItem = ({ label, count }) => {
   );
 };
 
-const RepositoryItem = ({ repository }) => {
+const RepositoryItem = ({ repository, isPressed = false }) => {
+
   const {
     fullName,
     description,
@@ -81,7 +87,9 @@ const RepositoryItem = ({ repository }) => {
     ratingAverage,
     reviewCount,
     ownerAvatarUrl,
-  } = repository;
+    url
+  } = {...repository};
+
 
   return (
     <View style={styles.container}>
@@ -115,6 +123,9 @@ const RepositoryItem = ({ repository }) => {
         <CountItem count={reviewCount} label="Reviews" />
         <CountItem count={ratingAverage} label="Rating" />
       </View>
+      { isPressed ? 
+         <Button onPress={() => Linking.openURL(url)}>Open in Github</Button> : null
+      }
     </View>
   );
 };
